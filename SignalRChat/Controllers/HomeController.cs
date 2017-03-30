@@ -9,7 +9,7 @@ namespace SignalRChat.Controllers
 {
     public class HomeController : Controller
     {
-        
+
         /// <summary>
         /// 群聊主页面
         /// </summary>
@@ -22,7 +22,7 @@ namespace SignalRChat.Controllers
             {
                 return RedirectToAction("NewUser");
             }
-            ViewBag.UserName = cookieUserName.Value;
+            ViewBag.UserName = HttpUtility.UrlDecode(cookieUserName.Value);
             return View();
         }
 
@@ -43,7 +43,7 @@ namespace SignalRChat.Controllers
         [HttpPost]
         public ActionResult NewUser(string userName)
         {
-            Response.Cookies.Add(new HttpCookie("USERNAME", userName));
+            Response.Cookies.Add(new HttpCookie("USERNAME", HttpUtility.UrlEncode(userName)));
             return Redirect("/");
         }
 

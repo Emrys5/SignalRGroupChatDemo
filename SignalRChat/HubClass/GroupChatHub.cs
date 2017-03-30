@@ -13,7 +13,7 @@ namespace SignalRChat.HubClass
     /// <summary>
     /// SignalR Hub 群聊类
     /// </summary>
-    [HubName("groupChatHub")]
+    [HubName("groupChatHub")] // 标记名称供js调用
     public class GroupChatHub : Hub
     {
         /// <summary>
@@ -24,7 +24,7 @@ namespace SignalRChat.HubClass
             get
             {
                 var userName = Context.RequestCookies["USERNAME"];
-                return userName == null ? "" : userName.Value;
+                return userName == null ? "" : HttpUtility.UrlDecode(userName.Value);
             }
         }
 
@@ -109,7 +109,7 @@ namespace SignalRChat.HubClass
                 Clients.Group("GROUP-" + UserName).publshMsg(FormatMsg(UserName, msg));
 
                 // 发送给选择的人员
-                Clients.Group("GROUP-" + UserName).publshMsg(FormatMsg(UserName, msg));
+                Clients.Group("GROUP-" + user).publshMsg(FormatMsg(UserName, msg));
             }
         }
 
