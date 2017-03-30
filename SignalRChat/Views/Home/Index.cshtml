@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "";
+}
+
+@section Styles{
+    <style type="text/css">
+        .p { color: blue; }
+        .time { color: gray; }
+    </style>
+}
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+
+            // 链接hub
+            var ticker = $.connection.groupChatHub;
+            $.connection.hub.start();
+
+            // 接收服务端发送的消息
+            $.extend(ticker.client, {
+
+                // 接收聊天消息
+                publshMsg: function (data) {
+                    $("#msg").append("<li><span class='p'>" + data.Name + "：</span>" + data.Msg + " <span class='time'>" + data.Time + "</span></li>")
+                    $("#msg").parents("div")[0].scrollTop = $("#msg").parents("div")[0].scrollHeight;
+                },
+
+                // 接收在线人员，然后加入Select，以供单独聊天选中
+                publshUser: function (data) {
+                    $("#count").text(data.length);
+                    $("#users").empty();
+                    $("#users").append('<option value="0">所有人</option>');
+                    for (var i = 0; i < data.length; i++) {
+                        $("#users").append('<option value="' + data[i] + '">' + data[i] + '</option>')
+                    }
+
+                }
+            });
+
+            // 发送消息按钮
+            $("#btn-send").click(function () {
+                var msg = $("#txt-msg").val();
+                if (!msg) {
+                    alert('请输入内容！'); return false;
+                }
+                $("#txt-msg").val('');
+
+                // 主动发送消息，传入发送给谁，和发送的内容。
+                ticker.server.sendMsg($("#users").val(), msg);
+            });
+
+        });
+    </script>
+
+}
+
+
+<h2>
+    群聊系统（<span id="count">1</span>人在线）：@ViewBag.UserName
+</h2>
+
+
+<div style="overflow:auto;height:300px">
+    <ul id="msg"></ul>
+</div>
+
+<select id="users" class="form-control" style="max-width:150px;">
+    <option value="0">所有人</option>
+</select>
+
+<input type="text" onkeydown='if (event.keyCode == 13) { $("#btn-send").click() }' class="form-control" id="txt-msg" placeholder="内容" style="max-width:400px;" />
+<br />
+<button type="button" id="btn-send">发送</button>
+

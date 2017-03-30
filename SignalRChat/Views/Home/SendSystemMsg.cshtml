@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "管理员发送系统消息";
+}
+
+
+@section Scripts{
+
+
+<script type="text/javascript">
+    $(function () {
+
+
+        $("#btn-send").click(function () {
+            var msg = $("#txt-msg").val();
+            if (!msg) {
+                alert('请输入内容！'); return false;
+            }
+
+            $.post("", { msg: msg }, function (data) {
+                if (data == "s") {
+                    $("#txt-msg").val('');
+                    alert('发送成功！');
+                }
+            });
+
+
+        });
+
+    });
+</script>
+
+}
+
+
+<h2>管理员发送系统消息</h2>
+
+<input type="text" onkeydown='if (event.keyCode == 13) { $("#btn-send").click() }' class="form-control" id="txt-msg" placeholder="内容" style="max-width:400px;" />
+<br />
+<button type="button" id="btn-send">发送</button>
+

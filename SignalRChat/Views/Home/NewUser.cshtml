@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "新用户";
+}
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btn-add").click(function () {
+                var userName = $("#txt-user-name").val();
+                if (!userName) {
+                    alert('请输入用户名！'); return false;
+                } 
+            });
+        });
+    </script>
+}
+
+<h2>新用户</h2>
+<form method="post" action="">
+    <input type="text" class="form-control" placeholder="用户名" id="txt-user-name" name="userName" />
+    <br />
+    <button id="btn-add" type="submit">确认加入</button>
+</form>
