@@ -39,6 +39,25 @@ namespace SignalRChat.HubClass
         /// <returns></returns>
         public override Task OnConnected()
         {
+            Connected();
+            return base.OnConnected();
+        }
+
+
+        /// <summary>
+        /// 重新链接
+        /// </summary>
+        /// <returns></returns>
+        public override Task OnReconnected()
+        {
+            Connected();
+            return base.OnReconnected();
+        }
+
+
+
+        private void Connected()
+        {
             // 处理在线人员
             if (!_onlineUser.ContainsKey(UserName)) // 如果名称不存在，则是新用户
             {
@@ -60,8 +79,9 @@ namespace SignalRChat.HubClass
 
             // 加入Hub Group，为了发送单独消息
             Groups.Add(Context.ConnectionId, "GROUP-" + UserName);
-            return base.OnConnected();
         }
+
+
 
         /// <summary>
         /// 结束连接
@@ -105,11 +125,16 @@ namespace SignalRChat.HubClass
             }
             else
             {
-                // 发送给自己消息
-                Clients.Group("GROUP-" + UserName).publshMsg(FormatMsg(UserName, msg));
+                //// 发送给自己消息
+                //Clients.Group("GROUP-" + UserName).publshMsg(FormatMsg(UserName, msg));
 
-                // 发送给选择的人员
-                Clients.Group("GROUP-" + user).publshMsg(FormatMsg(UserName, msg));
+                //// 发送给选择的人员
+                //Clients.Group("GROUP-" + user).publshMsg(FormatMsg(UserName, msg));
+
+
+                // 发送给自己消息
+                Clients.Groups(new List<string> { "GROUP-" + UserName, "GROUP-" + user }).publshMsg(FormatMsg(UserName, msg));
+
             }
         }
 

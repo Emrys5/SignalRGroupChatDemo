@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+
+
+
+
+
+
+
+<script  type="text/javascript">  
+    var ticker = $.connection.groupChatHub;
+    $.connection.hub.start();
+
+    $("#btn").click(function () {
+
+        // 链接完成以后，可以发送消息至服务端
+        ticker.server.sendMsg("需要发送的消息");
+    });
+    
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    var ticker = $.connection.groupChatHub;
+    $.connection.hub.start();
+
+    ticker.client.msg = function (data) {
+        console.log(data);
+    } 
+</script>

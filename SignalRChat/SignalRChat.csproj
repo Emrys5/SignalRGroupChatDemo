@@ -146,9 +146,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SimpleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HubClass\SimpleHub.cs" />
     <Compile Include="HubClass\GroupChatHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -189,6 +191,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\NewUser.cshtml" />
     <Content Include="Views\Home\SendSystemMsg.cshtml" />
+    <Content Include="Views\Simple\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
